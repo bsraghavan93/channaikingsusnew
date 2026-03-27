@@ -13,6 +13,12 @@
 </head>
 <body>
 
+<!-- Scroll progress bar -->
+<div id="scroll-progress"></div>
+
+<!-- Cursor trail canvas -->
+<canvas id="cursor-canvas"></canvas>
+
 <!-- Particle Canvas -->
 <canvas id="particle-canvas"></canvas>
 
@@ -296,23 +302,82 @@
 </svg>
 </div>
   <div class="hero-overlay"></div>
+
   <div class="hero-content">
-    <div class="hero-badge">★ #1 South Indian Restaurant · Fisherman's Wharf ★</div>
-    <h1 class="hero-title">C&#8204;H&#8204;E&#8204;N&#8204;N&#8204;A&#8204;I K&#8204;I&#8204;N&#8204;G&#8204;S</h1>
-    <p class="hero-subtitle">Authentic Tamil Nadu Cuisine · San Francisco</p>
-    <p class="hero-tagline">Where Ancient Flavors Meet the Pacific Shore</p>
-    <div class="hero-award">
-      <i class="bi bi-star-fill"></i>
-      <span>Voted Best Indian Restaurant · Fisherman's Wharf · Est. 2014</span>
-      <i class="bi bi-star-fill"></i>
+    <!-- Logo -->
+    <div class="hc-logo">
+      <img src="../assets/logo_full.png" alt="Chennai Kings" class="hc-logo-img">
     </div>
+
+    <!-- Eyebrow -->
+    <div class="hc-eyebrow">
+      <span class="hc-ey-line"></span>
+      <span class="hc-ey-text">Est. 2014 &nbsp;·&nbsp; Fisherman's Wharf, San Francisco</span>
+      <span class="hc-ey-line"></span>
+    </div>
+
+    <!-- Split-letter title -->
+    <h1 class="hc-title" aria-label="Chennai Kings">
+      <span class="split-row" aria-hidden="true">
+        <span class="cw"><span class="cc" style="--i:0">C</span></span><!--
+        --><span class="cw"><span class="cc" style="--i:1">H</span></span><!--
+        --><span class="cw"><span class="cc" style="--i:2">E</span></span><!--
+        --><span class="cw"><span class="cc" style="--i:3">N</span></span><!--
+        --><span class="cw"><span class="cc" style="--i:4">N</span></span><!--
+        --><span class="cw"><span class="cc" style="--i:5">A</span></span><!--
+        --><span class="cw"><span class="cc" style="--i:6">I</span></span>
+      </span>
+      <span class="split-row split-row--kings" aria-hidden="true">
+        <span class="cw"><span class="cc" style="--i:8">K</span></span><!--
+        --><span class="cw"><span class="cc" style="--i:9">I</span></span><!--
+        --><span class="cw"><span class="cc" style="--i:10">N</span></span><!--
+        --><span class="cw"><span class="cc" style="--i:11">G</span></span><!--
+        --><span class="cw"><span class="cc" style="--i:12">S</span></span>
+      </span>
+    </h1>
+
+    <!-- Ornament -->
+    <div class="hc-ornament">
+      <span class="hc-orn-line"></span>
+      <span class="hc-orn-diamonds">
+        <i class="bi bi-diamond-fill"></i>
+        <i class="bi bi-diamond-fill"></i>
+        <i class="bi bi-diamond-fill"></i>
+      </span>
+      <span class="hc-orn-line"></span>
+    </div>
+
+    <!-- Subtitle -->
+    <p class="hc-sub">Authentic Tamil Nadu Cuisine</p>
+    <p class="hc-tagline">Where Ancient Flavors Meet the Pacific Shore</p>
+
+    <!-- Feature pills -->
+    <div class="hc-tags">
+      <span class="hc-tag">Fine Dining</span>
+      <span class="hc-tag-sep">·</span>
+      <span class="hc-tag hc-tag--hl">Party Hall</span>
+      <span class="hc-tag-sep">·</span>
+      <span class="hc-tag hc-tag--hl">Banquet Hall</span>
+      <span class="hc-tag-sep">·</span>
+      <span class="hc-tag">Catering</span>
+    </div>
+
+    <!-- CTAs -->
     <div class="hero-ctas">
       <a href="#menu" class="btn-gold">Explore Menu</a>
       <a href="https://repasorder.com/home/e8c4f51c-a242-4ac8-98e3-eb8926130de2" target="_blank" class="btn-ghost">Order Online</a>
-      <a href="../assets/Chennai%20kings%20menu.pdf" download="Chennai-Kings-Menu.pdf" class="btn-ghost" style="display:inline-flex;align-items:center;gap:0.4rem;"><i class="bi bi-file-earmark-pdf-fill" style="color:var(--gold-light);"></i> Download Menu</a>
+      <a href="../assets/Chennai%20kings%20menu.pdf" download="Chennai-Kings-Menu.pdf" class="btn-ghost">
+        <i class="bi bi-file-earmark-pdf-fill" style="color:var(--gold-light);"></i> Menu PDF
+      </a>
     </div>
   </div>
-  <div class="hero-scroll"><i class="bi bi-chevron-double-down"></i></div>
+
+  <!-- Scroll indicator -->
+  <div class="hero-scroll-ind">
+    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+    <span class="scroll-label">Scroll to explore</span>
+  </div>
+
 </section>
 
 <!-- ═══════════ ABOUT / STATS ═══════════ -->

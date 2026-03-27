@@ -69,36 +69,34 @@ function buildMenu() {
     card.className = 'menu-card';
 
     category.sections.forEach(section => {
-      // Section title
-      const titleEl = document.createElement('div');
-      titleEl.className   = 'menu-section-title';
-      titleEl.textContent = section.title;
-      card.appendChild(titleEl);
+      // Section header (Mochar style)
+      const hdr = document.createElement('div');
+      hdr.className = 'menu-sec-header';
+      hdr.innerHTML = `<span class="menu-sec-title">${section.title}</span><span class="menu-sec-line"></span>`;
+      card.appendChild(hdr);
 
       // Optional note
       if (section.note) {
         const noteEl = document.createElement('div');
-        noteEl.style.cssText = 'padding:1rem 1.5rem;font-size:0.85rem;color:var(--text-muted);border-bottom:1px solid rgba(200,146,42,0.15);';
+        noteEl.className = 'menu-sec-note';
         noteEl.textContent = section.note;
         card.appendChild(noteEl);
       }
 
-      // Items
-      if (section.cols === 1) {
+      // Items — single or multi-column
+      if (!section.cols || section.cols === 1) {
         section.items.forEach(item => card.appendChild(buildMenuItem(item)));
       } else {
-        const row        = document.createElement('div');
-        row.className    = 'row g-0';
-        const colClass   = section.cols === 3 ? 'col-md-4' : 'col-md-6';
-        const perCol     = Math.ceil(section.items.length / section.cols);
+        const grid = document.createElement('div');
+        grid.className = `menu-cols-grid cols-${section.cols}`;
+        const perCol = Math.ceil(section.items.length / section.cols);
         for (let c = 0; c < section.cols; c++) {
           const col = document.createElement('div');
-          col.className = colClass;
           section.items.slice(c * perCol, c * perCol + perCol)
             .forEach(item => col.appendChild(buildMenuItem(item)));
-          row.appendChild(col);
+          grid.appendChild(col);
         }
-        card.appendChild(row);
+        card.appendChild(grid);
       }
     });
 
@@ -116,7 +114,8 @@ function buildMenuItem(item) {
       <div class="menu-item-name">${item.name}</div>
       ${item.desc ? `<div class="menu-item-desc">${item.desc}</div>` : ''}
     </div>
-    <div class="menu-item-price"${isSpecial ? ' style="font-size:0.8rem;color:var(--gold);"' : ''}>${item.price}</div>`;
+    <span class="menu-item-leader"></span>
+    <div class="menu-item-price"${isSpecial ? ' style="font-size:0.78rem;color:var(--gold);letter-spacing:0.06em;"' : ''}>${item.price}</div>`;
   return div;
 }
 
@@ -231,3 +230,58 @@ window.addEventListener('scroll', () => {
     parallaxBg.style.transform = `translateY(${offset}px)`;
   }
 });
+
+// ─── SCROLL PROGRESS BAR ───
+const progressBar = document.getElementById('scroll-progress');
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total    = document.body.scrollHeight - window.innerHeight;
+  progressBar.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
+}, { passive: true });
+
+// ─── CURSOR TRAIL ───
+const cursorCanvas  = document.getElementById('cursor-canvas');
+const cursorCtx     = cursorCanvas.getContext('2d');
+let trails = [];
+let mouse  = { x: -200, y: -200 };
+
+function resizeCursorCanvas() {
+  cursorCanvas.width  = window.innerWidth;
+  cursorCanvas.height = window.innerHeight;
+}
+resizeCursorCanvas();
+window.addEventListener('resize', resizeCursorCanvas);
+
+window.addEventListener('mousemove', e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+  trails.push({
+    x: mouse.x, y: mouse.y,
+    size: Math.random() * 3 + 1.5,
+    life: 1,
+    decay: Math.random() * 0.03 + 0.025,
+    vx: (Math.random() - 0.5) * 0.8,
+    vy: -(Math.random() * 0.8 + 0.2)
+  });
+});
+
+function drawTrails() {
+  cursorCtx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
+  trails = trails.filter(t => t.life > 0);
+  trails.forEach(t => {
+    t.x += t.vx;
+    t.y += t.vy;
+    t.life -= t.decay;
+    t.size *= 0.97;
+    const alpha = t.life * 0.7;
+    cursorCtx.beginPath();
+    cursorCtx.arc(t.x, t.y, t.size, 0, Math.PI * 2);
+    cursorCtx.fillStyle = `rgba(200, 146, 42, ${alpha})`;
+    cursorCtx.shadowBlur = 6;
+    cursorCtx.shadowColor = 'rgba(200,146,42,0.5)';
+    cursorCtx.fill();
+    cursorCtx.shadowBlur = 0;
+  });
+  requestAnimationFrame(drawTrails);
+}
+drawTrails();
