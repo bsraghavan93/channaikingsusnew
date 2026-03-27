@@ -112,7 +112,7 @@ body {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: url('assets/BannerImage.png') center/cover no-repeat;
+  background: url('../assets/BannerImage.png') center/cover no-repeat;
 }
 .hero-bg svg {
   position: absolute;
@@ -137,7 +137,6 @@ body {
 .hero-content {
   position: relative;
   z-index: 2;
-  animation: fadeUp 1.2s ease both;
 }
 
 @keyframes fadeUp {
@@ -1486,4 +1485,104 @@ section, .section { border-top: none !important; }
 .menu-cols-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
 @media (max-width: 768px) {
   .menu-cols-grid.cols-2, .menu-cols-grid.cols-3 { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════
+   NAVBAR — HERO MODE (transparent, items hidden)
+   ═══════════════════════════════════════════════════ */
+.navbar.hero-mode {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  border-bottom: none !important;
+}
+.navbar.hero-mode .navbar-brand {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.85);
+  pointer-events: none;
+}
+.navbar.hero-mode .navbar-nav,
+.navbar.hero-mode .float-order {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Navbar reveal transition */
+.navbar-brand,
+.navbar-nav {
+  transition: opacity 0.5s ease, transform 0.5s var(--ease-spring);
+}
+.navbar-brand { transition-delay: 0.05s; }
+.navbar-nav .nav-item:nth-child(1) { transition-delay: 0.08s; }
+.navbar-nav .nav-item:nth-child(2) { transition-delay: 0.13s; }
+.navbar-nav .nav-item:nth-child(3) { transition-delay: 0.18s; }
+.navbar-nav .nav-item:nth-child(4) { transition-delay: 0.23s; }
+.navbar-nav .nav-item:nth-child(5) { transition-delay: 0.28s; }
+.navbar-nav .nav-item:nth-child(6) { transition-delay: 0.33s; }
+.navbar-nav .nav-item:nth-child(7) { transition-delay: 0.38s; }
+.navbar-nav .nav-item:nth-child(8) { transition-delay: 0.43s; }
+
+/* Hero content — scroll drives opacity/transform via JS */
+.hero-content { will-change: opacity, transform; }
+.hc-logo      { will-change: opacity, transform; }
+
+/* ═══════════════════════════════════════════════════
+   MENU — IMPROVED VISIBILITY
+   ═══════════════════════════════════════════════════ */
+/* Brighter panel background for contrast */
+.menu-panel.active {
+  background: rgba(255,255,255,0.025);
+  border-radius: 6px;
+  padding: 0.5rem 1.5rem 1rem;
+}
+
+/* Section title — brighter */
+.menu-sec-title {
+  color: var(--gold-light) !important;
+  font-size: 0.82rem !important;
+  letter-spacing: 0.2em !important;
+}
+
+/* Item name — white, bigger */
+.menu-item-name {
+  font-size: 1rem !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.03em !important;
+}
+
+/* Item description — more readable */
+.menu-item-desc {
+  font-size: 0.82rem !important;
+  color: rgba(200,169,110,0.85) !important;
+}
+
+/* Price — brighter gold, bigger */
+.menu-item-price {
+  font-size: 1rem !important;
+  color: var(--gold-light) !important;
+  font-weight: 700 !important;
+}
+
+/* Leader line — more visible */
+.menu-item-leader {
+  border-bottom: 1.5px dotted rgba(200,146,42,0.35) !important;
+  min-width: 30px !important;
+}
+
+/* Item row — slightly more padding */
+.menu-item {
+  padding: 1rem 0 !important;
+}
+
+/* Section separator */
+.menu-sec-header {
+  padding-top: 2rem !important;
+}
+
+/* Menu card note */
+.menu-sec-note {
+  color: rgba(200,169,110,0.75) !important;
+  font-size: 0.82rem !important;
 }

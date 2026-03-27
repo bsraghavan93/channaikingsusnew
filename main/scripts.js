@@ -1,3 +1,7 @@
+
+// ─── NAVBAR: START IN HERO-MODE ───
+document.querySelector('.navbar').classList.add('hero-mode');
+
 // ─── PARTICLE CANVAS ───
 const canvas = document.getElementById('particle-canvas');
 const ctx = canvas.getContext('2d');
@@ -169,16 +173,56 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 reveals.forEach(r => revealObserver.observe(r));
 
-// ─── NAVBAR: SHRINK + HIDE/SHOW ───
-let lastScroll = 0;
-const navbar = document.querySelector('.navbar');
-navbar.style.transition = 'transform 0.35s ease, padding 0.35s ease, background 0.35s, box-shadow 0.35s';
-window.addEventListener('scroll', () => {
-  const current = window.scrollY;
-  navbar.classList.toggle('scrolled', current > 60);
-  navbar.style.transform = (current > lastScroll && current > 100) ? 'translateY(-100%)' : 'translateY(0)';
-  lastScroll = current;
-});
+// ─── HERO SCROLL TRANSITION + NAVBAR ───
+const navbar    = document.querySelector('.navbar');
+const heroCont  = document.querySelector('.hero-content');
+const heroScInd = document.querySelector('.hero-scroll-ind');
+const heroLogo  = document.querySelector('.hc-logo');
+
+let lastScrollY = 0;
+let heroHeight  = window.innerHeight;
+window.addEventListener('resize', () => { heroHeight = window.innerHeight; });
+
+function driveHeroScroll() {
+  const scrollY  = window.scrollY;
+  const progress = Math.min(1, scrollY / heroHeight);
+
+  // Hero content fades and rises
+  if (heroCont) {
+    heroCont.style.opacity   = Math.max(0, 1 - progress * 1.8).toString();
+    heroCont.style.transform = 'translateY(' + (-progress * 80) + 'px)';
+  }
+
+  // Hero logo drifts toward top-left as it fades
+  if (heroLogo) {
+    const scale = Math.max(0.05, 1 - progress * 0.95);
+    heroLogo.style.transform = 'translate(' + (-progress * 42) + 'vw, ' + (-progress * 44) + 'vh) scale(' + scale + ')';
+    heroLogo.style.opacity   = Math.max(0, 1 - progress * 2.2).toString();
+  }
+
+  // Scroll indicator fades quickly
+  if (heroScInd) {
+    heroScInd.style.opacity = Math.max(0, 1 - progress * 5).toString();
+  }
+
+  // Navbar: hero-mode off at 38% scroll → items stagger in
+  const heroGone = progress >= 0.38;
+  navbar.classList.toggle('hero-mode', !heroGone);
+  navbar.classList.toggle('scrolled',  scrollY > 60 && heroGone);
+
+  // Post-hero: hide on scroll-down, show on scroll-up
+  if (heroGone) {
+    navbar.style.transform = (scrollY > lastScrollY && scrollY > heroHeight * 0.5)
+      ? 'translateY(-100%)' : 'translateY(0)';
+  } else {
+    navbar.style.transform = 'translateY(0)';
+  }
+
+  lastScrollY = scrollY;
+}
+
+window.addEventListener('scroll', driveHeroScroll, { passive: true });
+driveHeroScroll();
 
 // ─── COUNTER ANIMATION ───
 function animateCounter(el) {
