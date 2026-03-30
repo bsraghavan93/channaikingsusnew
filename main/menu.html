@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu — Chennai Kings | Authentic Tamil Nadu Cuisine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<header class="menu-header">
+  <a href="index.html" class="menu-back">
+    <i class="bi bi-arrow-left"></i> Back
+  </a>
+  <a href="index.html" class="menu-brand">
+    <img src="../assets/logo_full.png" alt="Chennai Kings" class="menu-brand-logo">
+  </a>
+  <a href="../assets/Chennai%20kings%20menu.pdf" download="Chennai-Kings-Menu.pdf" class="menu-pdf-btn">
+    <i class="bi bi-file-earmark-pdf-fill"></i> Download PDF
+  </a>
+</header>
+
+<!-- Page title -->
+<div class="menu-page-title">
+  <p class="menu-page-eyebrow">Traditional Tamil Nadu Flavors</p>
+  <h1 class="menu-page-heading">Our Menu</h1>
+  <div class="menu-ornament">
+    <span></span><i class="bi bi-diamond-fill"></i><span></span>
+  </div>
+</div>
+
+<!-- Menu tabs + content -->
+<div class="menu-layout">
+  <!-- Tab sidebar -->
+  <aside class="menu-sidebar">
+    <div id="menu-tab-list"></div>
+  </aside>
+
+  <!-- Menu panels -->
+  <main class="menu-content" id="menu-panels"></main>
+</div>
+
+<script src="menu-data.js"></script>
+<script src="menu.js"></script>
+</body>
+</html>

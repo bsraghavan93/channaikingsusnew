@@ -193,11 +193,31 @@ function driveHeroScroll() {
     heroCont.style.transform = 'translateY(' + (-progress * 80) + 'px)';
   }
 
-  // Hero logo drifts toward top-left as it fades
+  // Hero logo: compute target (navbar logo) and animate toward it
   if (heroLogo) {
-    const scale = Math.max(0.05, 1 - progress * 0.95);
-    heroLogo.style.transform = 'translate(' + (-progress * 42) + 'vw, ' + (-progress * 44) + 'vh) scale(' + scale + ')';
-    heroLogo.style.opacity   = Math.max(0, 1 - progress * 2.2).toString();
+    if (progress > 0.01 && !heroLogo._navRect) {
+      const navImg = document.querySelector('.navbar-brand img');
+      const heroImg = heroLogo.querySelector('img') || heroLogo;
+      if (navImg && heroImg) {
+        const hRect = heroImg.getBoundingClientRect();
+        const nRect = navImg.getBoundingClientRect();
+        // Compute transform from hero center to nav logo center
+        heroLogo._dx = (nRect.left + nRect.width/2) - (hRect.left + hRect.width/2);
+        heroLogo._dy = (nRect.top  + nRect.height/2) - (hRect.top  + hRect.height/2);
+        heroLogo._sc = nRect.height / hRect.height;
+        heroLogo._navRect = true;
+      }
+    }
+    const p = Math.min(1, progress * 1.6);
+    if (heroLogo._navRect) {
+      const dx = (heroLogo._dx || 0) * p;
+      const dy = (heroLogo._dy || 0) * p;
+      const sc = 1 + ((heroLogo._sc || 0.5) - 1) * p;
+      heroLogo.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + sc + ')';
+      heroLogo.style.opacity   = Math.max(0, 1 - p * 1.4).toString();
+    } else {
+      heroLogo.style.opacity = Math.max(0, 1 - progress * 2.2).toString();
+    }
   }
 
   // Scroll indicator fades quickly
@@ -283,49 +303,3 @@ window.addEventListener('scroll', () => {
   progressBar.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
 }, { passive: true });
 
-// ─── CURSOR TRAIL ───
-const cursorCanvas  = document.getElementById('cursor-canvas');
-const cursorCtx     = cursorCanvas.getContext('2d');
-let trails = [];
-let mouse  = { x: -200, y: -200 };
-
-function resizeCursorCanvas() {
-  cursorCanvas.width  = window.innerWidth;
-  cursorCanvas.height = window.innerHeight;
-}
-resizeCursorCanvas();
-window.addEventListener('resize', resizeCursorCanvas);
-
-window.addEventListener('mousemove', e => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-  trails.push({
-    x: mouse.x, y: mouse.y,
-    size: Math.random() * 3 + 1.5,
-    life: 1,
-    decay: Math.random() * 0.03 + 0.025,
-    vx: (Math.random() - 0.5) * 0.8,
-    vy: -(Math.random() * 0.8 + 0.2)
-  });
-});
-
-function drawTrails() {
-  cursorCtx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
-  trails = trails.filter(t => t.life > 0);
-  trails.forEach(t => {
-    t.x += t.vx;
-    t.y += t.vy;
-    t.life -= t.decay;
-    t.size *= 0.97;
-    const alpha = t.life * 0.7;
-    cursorCtx.beginPath();
-    cursorCtx.arc(t.x, t.y, t.size, 0, Math.PI * 2);
-    cursorCtx.fillStyle = `rgba(200, 146, 42, ${alpha})`;
-    cursorCtx.shadowBlur = 6;
-    cursorCtx.shadowColor = 'rgba(200,146,42,0.5)';
-    cursorCtx.fill();
-    cursorCtx.shadowBlur = 0;
-  });
-  requestAnimationFrame(drawTrails);
-}
-drawTrails();

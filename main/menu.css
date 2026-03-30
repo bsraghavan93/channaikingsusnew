@@ -1,0 +1,215 @@
+/* ═══════════════════════════════════════════
+   CHENNAI KINGS — FULL MENU PAGE
+   ═══════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --crimson:      #6b0a12;
+  --deep-crimson: #3d0508;
+  --darkest:      #0e0102;
+  --gold:         #c8922a;
+  --gold-light:   #e8b84b;
+  --gold-pale:    #f5d68a;
+  --cream:        #fdf3dc;
+  --text-muted:   #c9a96e;
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--darkest);
+  color: var(--cream);
+  font-family: 'Lato', sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+.menu-header {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.9rem 2rem;
+  background: rgba(14,1,2,0.95);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(200,146,42,0.2);
+}
+.menu-back {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); text-decoration: none;
+  display: flex; align-items: center; gap: 0.5rem;
+  transition: color 0.2s;
+}
+.menu-back:hover { color: var(--gold-light); }
+.menu-brand-logo { height: 44px; width: auto; filter: drop-shadow(0 2px 8px rgba(200,146,42,0.4)); }
+.menu-pdf-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--darkest); background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  padding: 0.5rem 1.2rem; border-radius: 2px; text-decoration: none;
+  display: flex; align-items: center; gap: 0.5rem;
+  font-weight: 700;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.menu-pdf-btn:hover { box-shadow: 0 0 20px rgba(200,146,42,0.5); transform: translateY(-1px); }
+
+/* ── Page title ── */
+.menu-page-title {
+  text-align: center; padding: 3rem 1rem 2rem;
+  border-bottom: 1px solid rgba(200,146,42,0.1);
+}
+.menu-page-eyebrow {
+  font-family: 'Cinzel', serif; font-size: 0.68rem;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.7rem;
+}
+.menu-page-heading {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(2rem, 6vw, 4rem); font-weight: 900;
+  background: linear-gradient(135deg, var(--gold-pale), var(--gold-light), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 0.8rem;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0;
+}
+.menu-ornament {
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+}
+.menu-ornament span {
+  display: block; width: 60px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.menu-ornament i { color: var(--gold); font-size: 0.5rem; }
+
+/* ── Layout: sidebar + content ── */
+.menu-layout {
+  display: flex; align-items: flex-start;
+  max-width: 1400px; margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+  gap: 0;
+}
+
+/* ── Sidebar tabs ── */
+.menu-sidebar {
+  width: 220px; flex-shrink: 0;
+  position: sticky; top: 62px;
+  max-height: calc(100vh - 70px);
+  overflow-y: auto;
+  padding: 2rem 0 2rem 0;
+  border-right: 1px solid rgba(200,146,42,0.12);
+}
+.menu-sidebar::-webkit-scrollbar { width: 3px; }
+.menu-sidebar::-webkit-scrollbar-thumb { background: rgba(200,146,42,0.3); border-radius: 2px; }
+
+#menu-tab-list { display: flex; flex-direction: column; gap: 2px; }
+
+.menu-tab {
+  display: block; width: 100%; text-align: left;
+  font-family: 'Cinzel', serif; font-size: 0.7rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-muted); background: none; border: none;
+  padding: 0.65rem 1.4rem; cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  position: relative;
+}
+.menu-tab:hover { color: var(--gold-pale); background: rgba(200,146,42,0.04); }
+.menu-tab.active {
+  color: var(--gold-light);
+  border-left-color: var(--gold);
+  background: rgba(200,146,42,0.07);
+  font-weight: 700;
+}
+
+/* ── Main content ── */
+.menu-content {
+  flex: 1; min-width: 0;
+  padding: 2rem 0 2rem 3rem;
+}
+.menu-panel { display: none; }
+.menu-panel.active { display: block; animation: panel-in 0.35s ease; }
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Section header ── */
+.menu-sec-header {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 2rem 0 0.8rem; margin-bottom: 0.3rem;
+}
+.menu-sec-header:first-child { padding-top: 0; }
+.menu-sec-title {
+  font-family: 'Cinzel', serif; font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold-light); white-space: nowrap;
+}
+.menu-sec-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, rgba(200,146,42,0.3), transparent);
+}
+.menu-sec-note {
+  font-size: 0.8rem; color: var(--text-muted); font-style: italic;
+  padding: 0.3rem 0.8rem 0.6rem;
+  border-left: 2px solid rgba(200,146,42,0.2); margin-bottom: 0.4rem;
+}
+
+/* ── Item row ── */
+.menu-item {
+  display: flex; align-items: baseline; gap: 0;
+  padding: 0.9rem 0.5rem;
+  border-bottom: 1px solid rgba(200,146,42,0.08);
+  transition: background 0.18s ease, padding-left 0.18s ease;
+  position: relative; border-radius: 3px;
+}
+.menu-item:last-child { border-bottom: none; }
+.menu-item::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  background: var(--gold); border-radius: 1px;
+  transform: scaleY(0); transform-origin: center;
+  transition: transform 0.22s var(--ease-spring);
+}
+.menu-item:hover::before { transform: scaleY(1); }
+.menu-item:hover { background: rgba(200,146,42,0.05); padding-left: 1rem; }
+.menu-item-info { flex: 1; min-width: 0; padding-right: 0.8rem; }
+.menu-item-name {
+  font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 600;
+  color: #ffffff; letter-spacing: 0.03em; line-height: 1.3; margin-bottom: 0.2rem;
+}
+.menu-item-desc { font-size: 0.82rem; color: rgba(200,169,110,0.82); font-weight: 300; line-height: 1.55; }
+.menu-item-leader {
+  flex: 0 1 40px; min-width: 20px;
+  border-bottom: 1.5px dotted rgba(200,146,42,0.25);
+  margin-bottom: 5px; align-self: flex-end;
+}
+.menu-item-price {
+  flex-shrink: 0; font-family: 'Cinzel', serif;
+  font-size: 0.95rem; font-weight: 700; color: var(--gold-light);
+  letter-spacing: 0.04em; white-space: nowrap; padding-left: 0.8rem;
+}
+
+/* Multi-column grid */
+.menu-cols-grid { display: grid; gap: 0 3rem; }
+.menu-cols-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+.menu-cols-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .menu-layout { flex-direction: column; padding: 0 1rem 3rem; }
+  .menu-sidebar {
+    width: 100%; position: static;
+    max-height: none; border-right: none;
+    border-bottom: 1px solid rgba(200,146,42,0.12);
+    padding: 1rem 0; overflow-x: auto;
+  }
+  #menu-tab-list { flex-direction: row; flex-wrap: wrap; gap: 4px; padding: 0 0.5rem; }
+  .menu-tab { border-left: none; border-bottom: 2px solid transparent; padding: 0.5rem 0.8rem; white-space: nowrap; }
+  .menu-tab.active { border-bottom-color: var(--gold); }
+  .menu-content { padding: 1.5rem 0; }
+  .menu-cols-grid.cols-2, .menu-cols-grid.cols-3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .menu-header { padding: 0.7rem 1rem; }
+  .menu-pdf-btn span { display: none; }
+}

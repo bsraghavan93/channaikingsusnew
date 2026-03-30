@@ -124,7 +124,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(26,2,3,0.55) 0%, rgba(26,2,3,0.82) 100%);
+  background: linear-gradient(180deg, rgba(8,1,2,0.62) 0%, rgba(8,1,2,0.78) 60%, rgba(8,1,2,0.92) 100%);
   pointer-events: none;
 }
 
@@ -1266,10 +1266,7 @@ section, .section { border-top: none !important; }
   transition: width 0.1s linear;
   box-shadow: 0 0 8px rgba(200,146,42,0.6);
 }
-#cursor-canvas {
-  position: fixed; inset: 0; z-index: 9998;
-  pointer-events: none;
-}
+/* cursor trail removed */
 
 /* ═══════════════════════════════════════════════════
    KEN BURNS BACKGROUND
