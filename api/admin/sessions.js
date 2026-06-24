@@ -18,7 +18,7 @@ module.exports = async function handler(req, res) {
           table: tbl,
           status: 'active',
           orderId: o.id,
-          total: o.total || 0,
+          total: (o.lineItems?.elements || []).reduce((s, li) => s + (li.price || 0), 0),
           itemCount: o.lineItems?.elements?.length || 0,
           createdTime: o.createdTime,
           modifiedTime: o.modifiedTime,

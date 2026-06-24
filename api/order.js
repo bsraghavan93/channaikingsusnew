@@ -47,12 +47,22 @@ module.exports = async function handler(req, res) {
     }
 
     const updated = await cloverFetch(`/orders/${orderId}?expand=lineItems`);
+    const lineItems = updated.lineItems?.elements || [];
+    const calcTotal = lineItems.reduce((sum, li) => sum + (li.price || 0), 0);
+
+    // Sync the order total on Clover
+    if (calcTotal > 0 && updated.total !== calcTotal) {
+      await cloverFetch(`/orders/${orderId}`, {
+        method: 'POST',
+        body: JSON.stringify({ total: calcTotal }),
+      });
+    }
 
     return res.status(200).json({
       success: true,
       orderId,
-      total: updated.total || 0,
-      lineItems: (updated.lineItems?.elements || []).map(li => ({
+      total: calcTotal,
+      lineItems: lineItems.map(li => ({
         id: li.id,
         name: li.name,
         price: li.price || 0,

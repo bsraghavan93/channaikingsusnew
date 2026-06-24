@@ -10,11 +10,13 @@ module.exports = async function handler(req, res) {
 
   try {
     const order = await cloverFetch(`/orders/${orderId}?expand=lineItems`);
+    const lineItems = order.lineItems?.elements || [];
+    const calcTotal = lineItems.reduce((sum, li) => sum + (li.price || 0), 0);
 
     return res.status(200).json({
       orderId: order.id,
       state: order.state,
-      total: order.total || 0,
+      total: calcTotal,
       note: order.note || '',
       title: order.title || '',
       lineItems: (order.lineItems?.elements || []).map(li => ({

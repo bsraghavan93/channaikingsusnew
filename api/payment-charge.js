@@ -11,12 +11,13 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const order = await cloverFetch(`/orders/${orderId}`);
+    const order = await cloverFetch(`/orders/${orderId}?expand=lineItems`);
     if (!order || order.state !== 'open') {
       return res.status(400).json({ error: 'Order not found or already paid' });
     }
 
-    let amount = order.total || 0;
+    const lineItems = order.lineItems?.elements || [];
+    let amount = lineItems.reduce((sum, li) => sum + (li.price || 0), 0);
     if (!amount || amount <= 0) {
       return res.status(400).json({ error: 'Order total is zero' });
     }
