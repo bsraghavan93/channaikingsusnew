@@ -4,7 +4,8 @@
   "framework": null,
   "rewrites": [
     { "source": "/order/table/:table", "destination": "/order/index.html" },
-    { "source": "/admin/tables", "destination": "/admin/index.html" }
+    { "source": "/admin/tables", "destination": "/admin/index.html" },
+    { "source": "/kitchen", "destination": "/kitchen/index.html" }
   ],
   "headers": [
     {

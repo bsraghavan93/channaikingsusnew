@@ -1,0 +1,195 @@
+/* ── Chennai Kings KDS — Tablet-optimized ── */
+:root {
+  --bg: #1a1a2e;
+  --bg-card: #16213e;
+  --bg-header: #0f0f23;
+  --text: #eef0f6;
+  --text-dim: #8892a4;
+  --accent: #e94560;
+  --green: #00c853;
+  --green-dim: rgba(0,200,83,.12);
+  --yellow: #ffc107;
+  --yellow-dim: rgba(255,193,7,.12);
+  --orange: #ff6d00;
+  --border: rgba(233,69,96,.15);
+  --radius: 12px;
+  --font: 'Inter', -apple-system, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: var(--font); background: var(--bg); color: var(--text);
+  min-height: 100dvh; overflow: hidden;
+}
+
+/* ── HEADER ── */
+#kds-header {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px; padding: 0 20px;
+  background: var(--bg-header); border-bottom: 1px solid var(--border);
+}
+.hdr-left { display: flex; align-items: center; gap: 16px; }
+.hdr-title {
+  font-size: 1.1rem; font-weight: 800; color: var(--accent);
+  display: flex; align-items: center; gap: 8px;
+}
+.hdr-sub { font-size: .8rem; color: var(--text-dim); }
+.hdr-right { display: flex; align-items: center; gap: 14px; }
+.hdr-clock { font-size: .9rem; font-weight: 600; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.hdr-count {
+  font-size: .75rem; font-weight: 700; color: var(--accent); background: rgba(233,69,96,.15);
+  padding: 4px 12px; border-radius: 20px;
+}
+.hdr-icon-btn {
+  background: none; border: none; color: var(--text-dim); font-size: 1.1rem;
+  cursor: pointer; padding: 6px; border-radius: 6px;
+}
+.hdr-icon-btn:active { background: rgba(255,255,255,.08); }
+.hdr-icon-btn.muted { color: var(--text-dim); opacity: .4; }
+
+/* ── EMPTY STATE ── */
+.kds-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: calc(100dvh - 56px); gap: 12px;
+}
+.empty-icon { font-size: 4rem; color: var(--green); opacity: .5; }
+.empty-text { font-size: 1.1rem; color: var(--text-dim); }
+
+/* ── BOARD ── */
+.kds-board {
+  display: flex; gap: 16px; padding: 16px;
+  height: calc(100dvh - 56px);
+  overflow-x: auto; overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+}
+.kds-board::-webkit-scrollbar { height: 4px; }
+.kds-board::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+/* ── ORDER CARD ── */
+.order-card {
+  flex-shrink: 0; width: 320px;
+  background: var(--bg-card); border-radius: var(--radius);
+  border: 2px solid var(--border);
+  display: flex; flex-direction: column;
+  scroll-snap-align: start;
+  transition: border-color .2s, transform .2s;
+  max-height: 100%; overflow: hidden;
+}
+.order-card.new-flash {
+  border-color: var(--accent);
+  animation: cardFlash 1.5s ease-in-out 3;
+}
+@keyframes cardFlash {
+  0%, 100% { border-color: var(--accent); }
+  50% { border-color: var(--yellow); box-shadow: 0 0 20px rgba(255,193,7,.2); }
+}
+.order-card.all-done { border-color: var(--green); opacity: .7; }
+
+/* card header */
+.oc-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; border-bottom: 1px solid var(--border);
+}
+.oc-table {
+  font-size: 1.5rem; font-weight: 800; color: var(--accent);
+}
+.oc-meta { text-align: right; }
+.oc-time {
+  font-size: .8rem; font-weight: 600; color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+.oc-elapsed {
+  font-size: .7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+  display: inline-block; margin-top: 4px;
+}
+.oc-elapsed.fresh { background: var(--green-dim); color: var(--green); }
+.oc-elapsed.warm { background: var(--yellow-dim); color: var(--yellow); }
+.oc-elapsed.hot { background: rgba(233,69,96,.15); color: var(--accent); }
+
+/* items list */
+.oc-items {
+  flex: 1; overflow-y: auto; padding: 8px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.oc-items::-webkit-scrollbar { width: 3px; }
+.oc-items::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); }
+
+.oc-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 16px; cursor: pointer;
+  transition: background .12s;
+  user-select: none; -webkit-user-select: none;
+}
+.oc-item:active { background: rgba(255,255,255,.04); }
+.oc-item.done { opacity: .4; }
+.oc-item.done .oc-item-name { text-decoration: line-through; }
+
+.oc-item-check {
+  width: 26px; height: 26px; border-radius: 6px; flex-shrink: 0;
+  border: 2px solid var(--text-dim); display: flex; align-items: center;
+  justify-content: center; font-size: .85rem; color: transparent;
+  transition: all .15s; margin-top: 1px;
+}
+.oc-item.done .oc-item-check {
+  border-color: var(--green); background: var(--green); color: #fff;
+}
+.oc-item-info { flex: 1; min-width: 0; }
+.oc-item-name { font-size: .95rem; font-weight: 600; }
+.oc-item-note { font-size: .75rem; color: var(--yellow); margin-top: 2px; font-style: italic; }
+
+/* progress bar */
+.oc-progress { padding: 0 16px 8px; }
+.oc-progress-bar {
+  height: 4px; border-radius: 2px; background: rgba(255,255,255,.08); overflow: hidden;
+}
+.oc-progress-fill {
+  height: 100%; border-radius: 2px; background: var(--green);
+  transition: width .3s ease;
+}
+.oc-progress-text {
+  font-size: .7rem; color: var(--text-dim); text-align: center; margin-top: 4px;
+}
+
+/* bump button */
+.oc-bump {
+  padding: 14px 16px; border: none; border-top: 1px solid var(--border);
+  background: transparent; color: var(--green); font-family: var(--font);
+  font-size: .85rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; cursor: pointer; transition: background .15s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.oc-bump:active { background: var(--green-dim); }
+.oc-bump.ready { background: var(--green-dim); }
+
+/* ── BUMP OVERLAY ── */
+.bump-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,200,83,.15); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  animation: bumpIn .3s ease-out;
+}
+@keyframes bumpIn { from { opacity: 0; } }
+.bump-msg {
+  background: var(--green); color: #fff; padding: 24px 48px;
+  border-radius: 16px; font-size: 1.5rem; font-weight: 800;
+  display: flex; align-items: center; gap: 12px;
+  text-transform: uppercase; letter-spacing: 2px;
+}
+.bump-msg i { font-size: 2rem; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .order-card { width: 280px; }
+  .oc-table { font-size: 1.2rem; }
+}
+@media (min-width: 1024px) {
+  .order-card { width: 340px; }
+}
+@media (min-width: 1400px) {
+  .order-card { width: 360px; }
+}
+
+/* prevent text selection on whole page */
+body { user-select: none; -webkit-user-select: none; }

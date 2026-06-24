@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Kitchen Display — Chennai Kings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="/kitchen/kitchen.css">
+</head>
+<body>
+
+<!-- ── TOP BAR ── -->
+<header id="kds-header">
+  <div class="hdr-left">
+    <span class="hdr-title"><i class="bi bi-fire"></i> Kitchen Display</span>
+    <span class="hdr-sub">Chennai Kings</span>
+  </div>
+  <div class="hdr-right">
+    <span id="hdr-clock" class="hdr-clock"></span>
+    <span id="hdr-count" class="hdr-count">0 orders</span>
+    <button id="sound-toggle" class="hdr-icon-btn" onclick="toggleSound()" title="Toggle sound">
+      <i class="bi bi-bell-fill"></i>
+    </button>
+    <button class="hdr-icon-btn" onclick="refreshOrders()" title="Refresh">
+      <i class="bi bi-arrow-clockwise"></i>
+    </button>
+  </div>
+</header>
+
+<!-- ── EMPTY STATE ── -->
+<div id="kds-empty" class="kds-empty" style="display:none">
+  <i class="bi bi-check-circle-fill empty-icon"></i>
+  <p class="empty-text">All caught up — no open orders</p>
+</div>
+
+<!-- ── ORDER CARDS ── -->
+<div id="kds-board" class="kds-board"></div>
+
+<!-- ── BUMP CONFIRMATION OVERLAY ── -->
+<div id="bump-overlay" class="bump-overlay" style="display:none">
+  <div class="bump-msg">
+    <i class="bi bi-check-lg"></i>
+    <span id="bump-table"></span> bumped
+  </div>
+</div>
+
+<!-- ── NEW ORDER FLASH ── -->
+<audio id="new-order-sound" preload="auto">
+  <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdH2LkZaXk4+Ke3BkV1FRV2Rwe4qTmZeUjoN4bGFYU1RcZ3N+ipOYl5OMgXZqXlRQUlhjan6KlJmXk4yBdWpeVFBSWGRuf4qUmZeUjIF2al5UUFJYZ3J/i5WZl5SMgXVqXVNPUVdjcICLlZmXlI2Cd2tdU09RV2NwgIuVmZeUjYJ3a11TT1FXY3CAi5WZl5SNgndrXVNPUVdjcICLlZmXlI2Cd2tdUk9RVmJvf4qUmJaTjIB1aVxSTk9UYG1+iZOXlpKLf3RoW1FOUFRZZ3V/i5WZl5SMgXZqXlRQUlhkbn+KlJmXlIyBdmpeVFBSWGRuf4qUmZeUjIF2al5UUFJYZm5/ipSZl5SMgnZrX1VRU1lmcIGMlpqYlY6DdmpeVE9RVmFtfYmTl5aSi391aVxSTk9TWGVzf4uWmpeTjYJ3a15UUFJYZm9/i5WZl5SMgndrX1VRU1lmcIGMlpqYlY6DdmpeVE9RVmBsfYmTl5aSi391aFtRTU5SV2Ryf4qVmZiUjYN4bF9VUVNaZ3GBjJeamJWPg3dsYFVRVFpmcYKNl5qYlY+DeGxgVlJUW2hygYyXmpiVj4N3bGBVUVNaZ3GBjJeamJWPg3dsYFZSVFtncYKNl5qYlY+DeGxgVlJUW2dxgYyXmpiVj4N3bGBWUlRbZ3GCjZeamJWPg3hsYFZSVFtncYKNl5qYlY+DeGxgVlJUW2dxgYyXmpiVj4N4bGBWUlRbZ3GCjZeamJWPg3dsYFZSVFpmcYGMl5qYlY+Dd2xfVVFTWmdxgYyXmpiVj4N4bGBWUlRbZ3GCjZeamJWPg3dsYA==" type="audio/wav">
+</audio>
+
+<script src="/kitchen/kitchen.js"></script>
+</body>
+</html>
