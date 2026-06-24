@@ -293,6 +293,12 @@ body {
 }
 .pay-secure i { color: var(--gold); margin-right: 4px; }
 
+.pay-counter-note {
+  text-align: center; font-size: .78rem; color: var(--text-muted);
+  margin-top: 10px; margin-bottom: 16px; line-height: 1.5;
+}
+.bill-extra-actions { margin-top: 16px; }
+
 .pay-divider {
   display: flex; align-items: center; gap: 16px;
   margin: 20px 0; color: var(--text-muted); font-size: .8rem;

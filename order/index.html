@@ -129,19 +129,26 @@
     <div class="cart-total-row total-big"><span>Grand Total</span><span id="bill-grand">$0.00</span></div>
   </div>
 
-  <!-- Payment form (Clover hosted iframe) -->
-  <div id="payment-form" class="payment-form">
+  <!-- Primary: Pay at Counter -->
+  <button class="btn-gold w100" onclick="requestCounterPay()">
+    <i class="bi bi-person-fill"></i> Pay at Counter — <span id="pay-amount"></span>
+  </button>
+  <p class="pay-counter-note">Please proceed to the counter or ask your server to complete payment</p>
+
+  <!-- Card payment (only shown if Clover.js loads successfully) -->
+  <div id="payment-form" class="payment-form" style="display:none">
+    <div class="pay-divider"><span>or pay by card</span></div>
     <div id="clover-card" class="clover-card-frame"></div>
     <input id="pay-email" type="email" placeholder="Email for receipt (optional)" class="pay-input">
-    <button id="pay-btn" class="btn-gold w100 mt1" onclick="processPayment()">
-      Pay <span id="pay-amount"></span>
+    <button id="pay-btn" class="btn-outline w100 mt1" onclick="processPayment()">
+      Pay by Card
     </button>
     <p class="pay-secure"><i class="bi bi-shield-lock-fill"></i> Secured by Clover</p>
   </div>
 
-  <div class="pay-divider"><span>or</span></div>
-  <button class="btn-outline w100" onclick="requestCounterPay()">
-    <i class="bi bi-person-fill"></i> Pay at Counter
+  <div class="bill-extra-actions">
+    <button class="btn-outline w100" onclick="showView('menu')">
+      <i class="bi bi-plus-circle"></i> Order More Items
   </button>
 </div>
 

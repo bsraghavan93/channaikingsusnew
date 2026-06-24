@@ -513,10 +513,14 @@ function updateTipDisplay() {
 }
 
 async function initCloverPayment() {
+  const form = document.getElementById('payment-form');
+  form.style.display = 'none';
+
   try {
     const keyRes = await fetch('/api/payment-key');
     if (!keyRes.ok) throw new Error('Could not initialize payment');
     const { apiAccessKey } = await keyRes.json();
+    if (!apiAccessKey) throw new Error('No key returned');
 
     if (!window.Clover) {
       await loadScript('https://checkout.clover.com/sdk.js');
@@ -528,10 +532,10 @@ async function initCloverPayment() {
     const container = document.getElementById('clover-card');
     container.innerHTML = '';
     cardElement.mount(container);
+    form.style.display = 'block';
   } catch (err) {
-    console.warn('Clover payment init failed:', err.message);
-    const container = document.getElementById('clover-card');
-    container.innerHTML = '<p style="color:var(--text-muted);font-size:.8rem;padding:8px;">Card payment unavailable. Please pay at the counter.</p>';
+    console.warn('Clover card payment not available:', err.message);
+    form.style.display = 'none';
   }
 }
 
