@@ -1,4 +1,4 @@
-const { cloverFetch, cloverEcomFetch, cors } = require('./_lib/clover');
+const { cloverFetch, cors } = require('./_lib/clover');
 
 module.exports = async function handler(req, res) {
   cors(res);
@@ -35,10 +35,30 @@ module.exports = async function handler(req, res) {
     if (tip > 0) chargeBody.tip_amount = tip;
     if (email) chargeBody.receipt_email = email;
 
-    const charge = await cloverEcomFetch('/v1/charges', {
+    const ECOM_PRIVATE = process.env.CLOVER_ECOM_PRIVATE_KEY;
+    if (!ECOM_PRIVATE) {
+      return res.status(500).json({ error: 'Payment not configured' });
+    }
+
+    const ecomBase = process.env.CLOVER_ENV === 'sandbox'
+      ? 'https://scl-sandbox.dev.clover.com'
+      : 'https://scl.clover.com';
+
+    const chargeRes = await fetch(`${ecomBase}/v1/charges`, {
       method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${ECOM_PRIVATE}`,
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(chargeBody),
     });
+
+    if (!chargeRes.ok) {
+      const errText = await chargeRes.text();
+      throw new Error(`Charge failed ${chargeRes.status}: ${errText}`);
+    }
+
+    const charge = await chargeRes.json();
 
     await cloverFetch(`/orders/${orderId}`, {
       method: 'POST',
