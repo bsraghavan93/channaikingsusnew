@@ -529,32 +529,7 @@ async function initCloverPayment() {
 
     cloverInstance = new window.Clover(apiAccessKey);
     const elements = cloverInstance.elements();
-
-    const cardStyles = {
-      body: {
-        fontFamily: 'Lato, sans-serif',
-        fontSize: '15px',
-        color: '#f5e6c8',
-        backgroundColor: '#1a1410',
-      },
-      input: {
-        fontSize: '15px',
-        color: '#f5e6c8',
-        backgroundColor: '#0d0a07',
-        border: '1px solid rgba(200,146,42,0.3)',
-        borderRadius: '8px',
-        padding: '12px',
-        marginBottom: '8px',
-      },
-      'input:focus': {
-        border: '1px solid #c8922a',
-      },
-      'input::placeholder': {
-        color: '#9a8b78',
-      },
-    };
-
-    cardElement = elements.create('CARD', { style: cardStyles });
+    cardElement = elements.create('CARD');
     container.innerHTML = '';
     cardElement.mount('#clover-card');
   } catch (err) {
