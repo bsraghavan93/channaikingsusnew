@@ -30,7 +30,8 @@ async function cloverFetch(path, options = {}) {
 }
 
 async function cloverEcomFetch(path, options = {}) {
-  const url = `${CLOVER_ECOM_BASE}${path}`;
+  const sep = path.includes('?') ? '&' : '?';
+  const url = `${CLOVER_ECOM_BASE}${path}${sep}access_token=${API_TOKEN}`;
   const res = await fetch(url, {
     ...options,
     headers: {

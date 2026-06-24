@@ -6,9 +6,7 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const pakmsRes = await fetch(`${CLOVER_BASE}/pakms/apikey`, {
-      headers: { 'Authorization': `Bearer ${API_TOKEN}` },
-    });
+    const pakmsRes = await fetch(`${CLOVER_BASE}/pakms/apikey?access_token=${API_TOKEN}`);
 
     if (!pakmsRes.ok) {
       const text = await pakmsRes.text();
