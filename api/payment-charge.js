@@ -1,0 +1,59 @@
+const { cloverFetch, cloverEcomFetch, cors } = require('./_lib/clover');
+
+module.exports = async function handler(req, res) {
+  cors(res);
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  const { orderId, token, tipAmount, email } = req.body || {};
+  if (!orderId || !token) {
+    return res.status(400).json({ error: 'Missing orderId or payment token' });
+  }
+
+  try {
+    const order = await cloverFetch(`/orders/${orderId}`);
+    if (!order || order.state !== 'open') {
+      return res.status(400).json({ error: 'Order not found or already paid' });
+    }
+
+    let amount = order.total || 0;
+    if (!amount || amount <= 0) {
+      return res.status(400).json({ error: 'Order total is zero' });
+    }
+
+    const tip = Math.max(0, parseInt(tipAmount) || 0);
+    amount += tip;
+
+    const chargeBody = {
+      amount,
+      currency: 'usd',
+      source: token,
+      description: `${order.title || 'Table Order'} — Chennai Kings`,
+      external_reference_id: orderId,
+    };
+    if (tip > 0) chargeBody.tip_amount = tip;
+    if (email) chargeBody.receipt_email = email;
+
+    const charge = await cloverEcomFetch('/v1/charges', {
+      method: 'POST',
+      body: JSON.stringify(chargeBody),
+    });
+
+    await cloverFetch(`/orders/${orderId}`, {
+      method: 'POST',
+      body: JSON.stringify({ state: 'locked', paymentState: 'PAID' }),
+    });
+
+    return res.status(200).json({
+      success: true,
+      chargeId: charge.id,
+      amount: charge.amount,
+      status: charge.status,
+    });
+  } catch (err) {
+    console.error('Payment error:', err.message);
+    return res.status(500).json({
+      error: 'Payment failed. Please try again or ask staff for help.',
+    });
+  }
+};

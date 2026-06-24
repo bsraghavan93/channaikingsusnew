@@ -1,0 +1,165 @@
+/* ── Chennai Kings Staff Dashboard ── */
+:root {
+  --bg: #0d0a07;
+  --bg-card: #1a1410;
+  --bg-card2: #231c14;
+  --gold: #c8922a;
+  --gold-light: #e0b85c;
+  --gold-dim: rgba(200,146,42,.15);
+  --cream: #f5e6c8;
+  --crimson: #6b0a12;
+  --green: #2d8a4e;
+  --green-dim: rgba(45,138,78,.15);
+  --text: #f5e6c8;
+  --text-muted: #9a8b78;
+  --border: rgba(200,146,42,.18);
+  --radius: 10px;
+  --font-display: 'Cinzel', serif;
+  --font-body: 'Lato', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: var(--font-body); background: var(--bg); color: var(--text);
+  min-height: 100dvh; padding: 60px 16px 40px;
+}
+
+/* ── Header ── */
+.admin-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px; padding: 0 16px;
+  background: rgba(13,10,7,.95); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.hdr-back { color: var(--gold); font-size: 1.25rem; text-decoration: none; }
+.hdr-center { display: flex; align-items: center; gap: 8px; }
+.hdr-logo { height: 36px; width: auto; filter: drop-shadow(0 1px 4px rgba(200,146,42,.3)); }
+.hdr-badge {
+  font-family: var(--font-display); font-size: .65rem; letter-spacing: 2px;
+  color: var(--bg); background: var(--crimson); padding: 3px 10px; border-radius: 4px;
+  font-weight: 700;
+}
+.hdr-btn {
+  background: none; border: none; color: var(--gold); font-size: 1.2rem; cursor: pointer;
+}
+
+/* ── PIN gate ── */
+.view-center {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; min-height: calc(100dvh - 80px); padding: 24px;
+}
+.big-icon { font-size: 3rem; margin-bottom: 16px; }
+.gold { color: var(--gold-light); }
+.view-title { font-family: var(--font-display); font-size: 1.4rem; color: var(--gold-light); margin-bottom: 8px; }
+.view-sub { color: var(--text-muted); font-size: .9rem; margin-bottom: 20px; }
+.pin-row { display: flex; gap: 10px; align-items: center; }
+.pin-input {
+  width: 120px; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--bg-card); color: var(--text); font-size: 1.2rem; text-align: center;
+  font-family: var(--font-body); letter-spacing: 4px;
+}
+.pin-input:focus { outline: none; border-color: var(--gold); }
+.pin-error { color: var(--crimson); font-size: .85rem; margin-top: 12px; }
+
+/* ── Buttons ── */
+.btn-gold {
+  display: inline-flex; align-items: center; gap: 6px; padding: 10px 24px; border: none;
+  border-radius: var(--radius); background: linear-gradient(135deg, var(--gold), #a67820);
+  color: #0d0a07; font-family: var(--font-display); font-size: .72rem;
+  font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  cursor: pointer; text-decoration: none;
+}
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 6px; padding: 10px 24px;
+  border: 1px solid var(--gold); border-radius: var(--radius); background: transparent;
+  color: var(--gold); font-family: var(--font-display); font-size: .72rem;
+  font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  cursor: pointer; text-decoration: none;
+}
+.btn-sm {
+  padding: 6px 14px; border-radius: 6px; border: 1px solid var(--border);
+  background: var(--bg-card); color: var(--text-muted); font-size: .78rem;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+}
+.btn-sm:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── Stats bar ── */
+.stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
+.stat-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px; text-align: center;
+}
+.stat-num { font-family: var(--font-display); font-size: 1.4rem; color: var(--gold-light); }
+.stat-label { font-size: .72rem; color: var(--text-muted); margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
+
+/* ── Section ── */
+.section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.section-title { font-family: var(--font-display); font-size: .9rem; color: var(--gold-light); letter-spacing: 2px; }
+.mt3 { margin-top: 32px; }
+
+/* ── Table grid ── */
+.table-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.table-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px; cursor: pointer; transition: all .15s;
+}
+.table-card:hover { border-color: var(--gold); }
+.table-card.active { border-color: var(--gold); background: var(--gold-dim); }
+.table-card.available { border-color: rgba(45,138,78,.3); }
+.tc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.tc-name { font-family: var(--font-display); font-size: 1rem; color: var(--cream); }
+.tc-status {
+  font-size: .6rem; padding: 2px 8px; border-radius: 4px;
+  font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+}
+.tc-status.active { background: var(--gold-dim); color: var(--gold); }
+.tc-status.available { background: var(--green-dim); color: var(--green); }
+.tc-detail { font-size: .78rem; color: var(--text-muted); line-height: 1.6; }
+.tc-total { font-family: var(--font-display); font-size: .9rem; color: var(--gold-light); margin-top: 4px; }
+.tc-close {
+  margin-top: 10px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--crimson);
+  background: rgba(107,10,18,.2); color: var(--crimson); font-size: .72rem;
+  cursor: pointer; width: 100%;
+}
+.tc-close:hover { background: rgba(107,10,18,.4); }
+
+/* ── QR grid ── */
+.qr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+.qr-card {
+  background: #fff; border-radius: var(--radius); padding: 16px; text-align: center;
+}
+.qr-card svg { width: 100%; max-width: 150px; height: auto; }
+.qr-table-label {
+  font-family: var(--font-display); font-size: .9rem; font-weight: 700;
+  color: #0d0a07; margin-top: 8px;
+}
+.qr-url { font-size: .6rem; color: #666; word-break: break-all; margin-top: 4px; }
+.qr-actions { margin-top: 16px; text-align: center; }
+
+/* ── Modal ── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.6);
+  backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center;
+}
+.modal-box {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 28px 24px; max-width: 400px; width: 90%;
+}
+.modal-title { font-family: var(--font-display); font-size: 1rem; color: var(--gold-light); margin-bottom: 12px; }
+.modal-desc { color: var(--text-muted); font-size: .85rem; line-height: 1.6; margin-bottom: 20px; }
+.modal-btns { display: flex; gap: 10px; justify-content: flex-end; }
+
+/* ── Print styles ── */
+@media print {
+  body { background: #fff; color: #000; padding: 0; }
+  .admin-header, .stats-bar, .section-head, #table-grid, .qr-actions, #pin-gate { display: none !important; }
+  #dashboard { display: block !important; }
+  .qr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .qr-card { border: 1px solid #ddd; break-inside: avoid; }
+}
+
+@media (min-width: 768px) {
+  body { max-width: 900px; margin: 0 auto; }
+}
