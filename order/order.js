@@ -514,11 +514,12 @@ function updateTipDisplay() {
 
 async function initCloverPayment() {
   const form = document.getElementById('payment-form');
-  form.style.display = 'none';
+  const container = document.getElementById('clover-card');
+  container.innerHTML = '<p style="color:var(--text-muted);font-size:.8rem;padding:12px;text-align:center;">Loading card form...</p>';
 
   try {
     const keyRes = await fetch('/api/payment-key');
-    if (!keyRes.ok) throw new Error('Could not initialize payment');
+    if (!keyRes.ok) throw new Error('Could not get payment key');
     const { apiAccessKey } = await keyRes.json();
     if (!apiAccessKey) throw new Error('No key returned');
 
@@ -529,13 +530,11 @@ async function initCloverPayment() {
     cloverInstance = new window.Clover(apiAccessKey);
     const elements = cloverInstance.elements();
     cardElement = elements.create('CARD');
-    const container = document.getElementById('clover-card');
     container.innerHTML = '';
     cardElement.mount(container);
-    form.style.display = 'block';
   } catch (err) {
-    console.warn('Clover card payment not available:', err.message);
-    form.style.display = 'none';
+    console.warn('Clover card init failed:', err.message);
+    container.innerHTML = '<p style="color:var(--text-muted);font-size:.8rem;padding:12px;text-align:center;">Card form could not load. Please use Pay at Counter.</p>';
   }
 }
 
