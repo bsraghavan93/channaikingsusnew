@@ -541,18 +541,22 @@ async function initCloverPayment() {
     const elements = cloverInstance.elements();
 
     const fieldStyle = {
+      body: { margin: '0', padding: '0', backgroundColor: '#1a1410' },
       input: {
         fontSize: '16px',
         fontFamily: 'Lato, sans-serif',
         color: '#f5e6c8',
-        backgroundColor: 'transparent',
+        backgroundColor: '#1a1410',
         border: 'none',
         outline: 'none',
-        padding: '10px 12px',
+        padding: '12px',
+        height: '48px',
+        width: '100%',
+        boxSizing: 'border-box',
+        margin: '0',
       },
-      'input::placeholder': {
-        color: '#9a8b78',
-      },
+      'input:focus': { outline: 'none' },
+      'input::placeholder': { color: '#9a8b78' },
     };
 
     const cardNumber = elements.create('CARD_NUMBER', { style: fieldStyle });

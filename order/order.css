@@ -289,11 +289,11 @@ body {
 }
 .card-field {
   border: 1px solid var(--border); border-radius: 8px;
-  background: var(--bg-card); padding: 2px; min-height: 44px;
-  transition: border-color .2s;
+  background: var(--bg-card); padding: 0; height: 48px;
+  overflow: hidden; transition: border-color .2s;
 }
 .card-field:focus-within { border-color: var(--gold); }
-.card-field iframe { min-height: 40px !important; }
+.card-field iframe { height: 48px !important; min-height: 0 !important; }
 .card-row { display: flex; gap: 12px; }
 .card-col { flex: 1; }
 .pay-options { padding-top: 8px; }
