@@ -52,6 +52,7 @@ function showView(name) {
     el.style.display = name === 'loading' || name === 'invalid' ||
       name === 'ordered' || name === 'success' || name === 'counter-pay'
       ? 'flex' : 'block';
+    if (name === 'card-pay') initCloverPayment();
   }
   if (name === 'cart') renderCart();
   window.scrollTo(0, 0);
@@ -467,7 +468,6 @@ async function loadBillAndShowPayment() {
     renderBill();
     hideOverlay();
     showView('payment');
-    initCloverPayment();
   } catch (err) {
     hideOverlay();
     toast('Could not load bill: ' + err.message);
@@ -512,10 +512,20 @@ function updateTipDisplay() {
   document.getElementById('pay-amount').textContent = formatPrice(grand);
 }
 
+function goToCardPay() {
+  if (!billData) return;
+  const subtotal = billData.total || 0;
+  const tip = Math.round(subtotal * tipPct / 100);
+  const grand = subtotal + tip;
+  document.getElementById('card-pay-total').textContent = formatPrice(grand);
+  document.getElementById('pay-btn-amount').textContent = formatPrice(grand);
+  showView('card-pay');
+}
+
+let cloverInitDone = false;
+
 async function initCloverPayment() {
-  const form = document.getElementById('payment-form');
-  const container = document.getElementById('clover-card');
-  container.innerHTML = '<p style="color:var(--text-muted);font-size:.8rem;padding:12px;text-align:center;">Loading card form...</p>';
+  if (cloverInitDone) return;
 
   try {
     const keyRes = await fetch('/api/payment-key');
@@ -529,12 +539,38 @@ async function initCloverPayment() {
 
     cloverInstance = new window.Clover(apiAccessKey);
     const elements = cloverInstance.elements();
-    cardElement = elements.create('CARD');
-    container.innerHTML = '';
-    cardElement.mount('#clover-card');
+
+    const fieldStyle = {
+      input: {
+        fontSize: '16px',
+        fontFamily: 'Lato, sans-serif',
+        color: '#f5e6c8',
+        backgroundColor: 'transparent',
+        border: 'none',
+        outline: 'none',
+        padding: '10px 12px',
+      },
+      'input::placeholder': {
+        color: '#9a8b78',
+      },
+    };
+
+    const cardNumber = elements.create('CARD_NUMBER', { style: fieldStyle });
+    const cardDate = elements.create('CARD_DATE', { style: fieldStyle });
+    const cardCvv = elements.create('CARD_CVV', { style: fieldStyle });
+    const cardPostal = elements.create('CARD_POSTAL_CODE', { style: fieldStyle });
+
+    cardNumber.mount('#card-number');
+    cardDate.mount('#card-date');
+    cardCvv.mount('#card-cvv');
+    cardPostal.mount('#card-postal');
+
+    cardElement = cardNumber;
+    cloverInitDone = true;
   } catch (err) {
-    console.error('Clover card init failed:', err);
-    container.innerHTML = `<p style="color:var(--text-muted);font-size:.8rem;padding:12px;text-align:center;">Card form could not load: ${err.message || 'unknown error'}. Please use Pay at Counter.</p>`;
+    console.error('Clover init failed:', err);
+    document.getElementById('card-number').innerHTML =
+      `<p style="color:#9a8b78;font-size:.8rem;padding:12px;">Could not load card form. Please go back and use Pay at Counter.</p>`;
   }
 }
 

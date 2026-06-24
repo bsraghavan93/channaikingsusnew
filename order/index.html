@@ -129,26 +129,56 @@
     <div class="cart-total-row total-big"><span>Grand Total</span><span id="bill-grand">$0.00</span></div>
   </div>
 
-  <!-- Primary: Card Payment -->
-  <div id="payment-form" class="payment-form">
-    <div id="clover-card" class="clover-card-frame"></div>
-    <input id="pay-email" type="email" placeholder="Email for receipt (optional)" class="pay-input">
-    <button id="pay-btn" class="btn-gold w100 mt1" onclick="processPayment()">
-      <i class="bi bi-credit-card-fill"></i> Pay <span id="pay-amount"></span>
+  <!-- Payment options -->
+  <div class="pay-options">
+    <button class="btn-gold w100" onclick="goToCardPay()">
+      <i class="bi bi-credit-card-fill"></i> Pay Now with Card — <span id="pay-amount"></span>
     </button>
-    <p class="pay-secure"><i class="bi bi-shield-lock-fill"></i> Secured by Clover</p>
-  </div>
-
-  <div class="pay-divider"><span>or</span></div>
-  <button class="btn-outline w100" onclick="requestCounterPay()">
-    <i class="bi bi-person-fill"></i> Pay at Counter
-  </button>
-
-  <div class="bill-extra-actions">
+    <button class="btn-outline w100 mt1" onclick="requestCounterPay()">
+      <i class="bi bi-person-fill"></i> Pay at Counter
+    </button>
     <button class="btn-outline w100 mt1" onclick="showView('menu')">
       <i class="bi bi-plus-circle"></i> Order More Items
     </button>
   </div>
+</div>
+
+<!-- ── CARD PAYMENT PAGE ── -->
+<div id="view-card-pay" class="view" style="display:none">
+  <div class="view-header">
+    <button class="back-link" onclick="showView('payment')"><i class="bi bi-arrow-left"></i> Back to Bill</button>
+    <h2 class="view-title-sm">Pay with Card</h2>
+  </div>
+
+  <div class="card-pay-summary">
+    <div class="cart-total-row total-big"><span>Amount</span><span id="card-pay-total">$0.00</span></div>
+  </div>
+
+  <div class="card-fields">
+    <label class="card-label">Card Number</label>
+    <div id="card-number" class="card-field"></div>
+
+    <div class="card-row">
+      <div class="card-col">
+        <label class="card-label">Expiry</label>
+        <div id="card-date" class="card-field"></div>
+      </div>
+      <div class="card-col">
+        <label class="card-label">CVV</label>
+        <div id="card-cvv" class="card-field"></div>
+      </div>
+    </div>
+
+    <label class="card-label">Zip Code</label>
+    <div id="card-postal" class="card-field"></div>
+  </div>
+
+  <input id="pay-email" type="email" placeholder="Email for receipt (optional)" class="pay-input mt1">
+
+  <button id="pay-btn" class="btn-gold w100 mt2" onclick="processPayment()">
+    <i class="bi bi-lock-fill"></i> Pay <span id="pay-btn-amount"></span>
+  </button>
+  <p class="pay-secure"><i class="bi bi-shield-lock-fill"></i> Secured by Clover · PCI Compliant</p>
 
 <!-- ── PAYMENT SUCCESS ── -->
 <div id="view-success" class="view view-center" style="display:none">

@@ -277,14 +277,26 @@ body {
 .tip-btn.active { border-color: var(--gold); background: var(--gold-dim); color: var(--gold-light); font-weight: 700; }
 
 .payment-form { margin-top: 20px; }
-.clover-card-frame {
-  min-height: 180px; border: 2px solid var(--gold); border-radius: 12px;
-  padding: 16px; background: #ffffff; margin-bottom: 12px;
-  overflow: hidden;
+/* ── CARD PAYMENT FIELDS ── */
+.card-pay-summary {
+  padding: 16px 0; border-bottom: 1px solid var(--border); margin-bottom: 20px;
 }
-.clover-card-frame iframe {
-  min-height: 160px !important;
+.card-fields { margin-bottom: 16px; }
+.card-label {
+  display: block; font-size: .75rem; color: var(--gold); letter-spacing: 1px;
+  text-transform: uppercase; margin-bottom: 6px; margin-top: 14px;
+  font-weight: 600;
 }
+.card-field {
+  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--bg-card); padding: 2px; min-height: 44px;
+  transition: border-color .2s;
+}
+.card-field:focus-within { border-color: var(--gold); }
+.card-field iframe { min-height: 40px !important; }
+.card-row { display: flex; gap: 12px; }
+.card-col { flex: 1; }
+.pay-options { padding-top: 8px; }
 .pay-input {
   width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border);
   background: var(--bg); color: var(--text); font-family: var(--font-body);
