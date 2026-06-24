@@ -278,8 +278,12 @@ body {
 
 .payment-form { margin-top: 20px; }
 .clover-card-frame {
-  min-height: 48px; border: 1px solid var(--border); border-radius: 8px;
-  padding: 12px; background: var(--bg-card); margin-bottom: 12px;
+  min-height: 180px; border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px; background: var(--bg-card); margin-bottom: 12px;
+  overflow: hidden;
+}
+.clover-card-frame iframe {
+  min-height: 160px !important;
 }
 .pay-input {
   width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border);
