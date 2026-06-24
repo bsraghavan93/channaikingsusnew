@@ -13,12 +13,11 @@ async function cloverFetch(path, options = {}) {
   if (!MERCHANT_ID || !API_TOKEN) {
     throw new Error(`Missing config: MID=${!!MERCHANT_ID} TOKEN=${!!API_TOKEN}`);
   }
-  const url = `${CLOVER_BASE}/v3/merchants/${MERCHANT_ID}${path}`;
-  console.log('Clover request:', url);
+  const sep = path.includes('?') ? '&' : '?';
+  const url = `${CLOVER_BASE}/v3/merchants/${MERCHANT_ID}${path}${sep}access_token=${API_TOKEN}`;
   const res = await fetch(url, {
     ...options,
     headers: {
-      'Authorization': `Bearer ${API_TOKEN}`,
       'Content-Type': 'application/json',
       ...options.headers,
     },
