@@ -10,7 +10,11 @@ const MERCHANT_ID = process.env.CLOVER_MERCHANT_ID;
 const API_TOKEN = process.env.CLOVER_API_TOKEN;
 
 async function cloverFetch(path, options = {}) {
+  if (!MERCHANT_ID || !API_TOKEN) {
+    throw new Error(`Missing config: MID=${!!MERCHANT_ID} TOKEN=${!!API_TOKEN}`);
+  }
   const url = `${CLOVER_BASE}/v3/merchants/${MERCHANT_ID}${path}`;
+  console.log('Clover request:', url);
   const res = await fetch(url, {
     ...options,
     headers: {

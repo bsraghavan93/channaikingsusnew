@@ -8,7 +8,7 @@ module.exports = async function handler(req, res) {
   try {
     const [categoriesRes, itemsRes, modGroupsRes] = await Promise.all([
       cloverFetch('/categories?orderBy=sortOrder&limit=100'),
-      cloverFetch('/items?expand=categories,modifierGroups&limit=500&filter=hidden=false'),
+      cloverFetch('/items?expand=categories%2CmodifierGroups&limit=500'),
       cloverFetch('/modifier_groups?expand=modifiers&limit=100'),
     ]);
 
@@ -63,6 +63,6 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ categories: menu });
   } catch (err) {
     console.error('Menu error:', err.message);
-    return res.status(500).json({ error: 'Failed to fetch menu' });
+    return res.status(500).json({ error: 'Failed to fetch menu', detail: err.message });
   }
 };
