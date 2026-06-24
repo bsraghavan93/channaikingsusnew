@@ -531,7 +531,7 @@ async function initCloverPayment() {
     const elements = cloverInstance.elements();
     cardElement = elements.create('CARD');
     container.innerHTML = '';
-    cardElement.mount(container);
+    cardElement.mount('#clover-card');
   } catch (err) {
     console.error('Clover card init failed:', err);
     container.innerHTML = `<p style="color:var(--text-muted);font-size:.8rem;padding:12px;text-align:center;">Card form could not load: ${err.message || 'unknown error'}. Please use Pay at Counter.</p>`;
