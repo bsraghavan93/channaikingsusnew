@@ -267,6 +267,14 @@ function updateAddBtnPrice() {
 }
 
 // ── Cart ──
+function onCartClick() {
+  if (cart.length === 0 && orderId) {
+    loadBillAndShowPayment();
+  } else {
+    showView('cart');
+  }
+}
+
 function addToCart() {
   if (!selectedItem) return;
 
@@ -322,8 +330,24 @@ function renderCart() {
 
   if (cart.length === 0) {
     itemsEl.innerHTML = '';
-    emptyEl.style.display = 'flex';
     footerEl.style.display = 'none';
+    if (orderId) {
+      emptyEl.innerHTML = `
+        <i class="bi bi-receipt big-icon gold"></i>
+        <p class="view-sub">No new items in cart</p>
+        <div class="btn-row mt2">
+          <button class="btn-gold" onclick="showView('menu')">Order More</button>
+          <button class="btn-outline" onclick="loadBillAndShowPayment()">View Bill</button>
+        </div>
+      `;
+    } else {
+      emptyEl.innerHTML = `
+        <i class="bi bi-bag big-icon muted"></i>
+        <p class="view-sub">Your cart is empty</p>
+        <button class="btn-gold mt2" onclick="showView('menu')">Browse Menu</button>
+      `;
+    }
+    emptyEl.style.display = 'flex';
     return;
   }
 
