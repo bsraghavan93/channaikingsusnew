@@ -591,9 +591,9 @@ async function initCloverPayment() {
     const elements = cloverInstance.elements();
 
     const fieldStyle = {
-      html: { margin: '0', padding: '0', backgroundColor: '#1a1410', height: '100%' },
-      body: { margin: '0', padding: '0', backgroundColor: '#1a1410', height: '100%' },
-      'body::before': { display: 'none' },
+      '*': { boxSizing: 'border-box' },
+      html: { margin: '0', padding: '0', backgroundColor: '#1a1410', height: '44px', overflow: 'hidden' },
+      body: { margin: '0', padding: '0', backgroundColor: '#1a1410', height: '44px', overflow: 'hidden' },
       input: {
         fontSize: '16px',
         fontFamily: 'Lato, sans-serif',
@@ -601,11 +601,13 @@ async function initCloverPayment() {
         backgroundColor: '#1a1410',
         border: 'none',
         outline: 'none',
-        padding: '12px',
-        height: '48px',
+        padding: '10px 12px',
+        height: '44px',
+        lineHeight: '24px',
         width: '100%',
         boxSizing: 'border-box',
         margin: '0',
+        display: 'block',
       },
       'input:focus': { outline: 'none' },
       'input::placeholder': { color: '#9a8b78' },
@@ -623,15 +625,12 @@ async function initCloverPayment() {
 
     setTimeout(() => {
       document.querySelectorAll('.card-field').forEach(field => {
-        const children = field.querySelectorAll('div, span');
-        children.forEach(c => {
-          c.style.height = '48px';
-          c.style.maxHeight = '48px';
-          c.style.overflow = 'hidden';
-          c.style.background = '#1a1410';
+        Array.from(field.children).forEach(c => {
+          if (c.tagName === 'IFRAME') return;
+          c.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:44px;max-height:44px;overflow:hidden;background:#1a1410;z-index:1;pointer-events:none;';
         });
       });
-    }, 500);
+    }, 600);
 
     cardElement = cardNumber;
     cloverInitDone = true;
