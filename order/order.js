@@ -30,6 +30,7 @@ let cardElement = null;
     await initTableSession();
     renderMenu();
     showView('welcome');
+    loadPastOrders();
   } catch (err) {
     console.error('Init error:', err);
     document.getElementById('view-loading').querySelector('.load-text').textContent =
@@ -495,6 +496,7 @@ async function submitOrder() {
     updateCartBadge();
     hideOverlay();
     showView('ordered');
+    loadPastOrders();
   } catch (err) {
     hideOverlay();
     toast('Order failed: ' + err.message);
@@ -674,6 +676,55 @@ function clearSession() {
   localStorage.removeItem('ck_session');
   localStorage.removeItem('ck_cart_' + tableNumber);
   updateCartBadge();
+}
+
+// ── Past Orders Panel ──
+let pastOrdersData = [];
+let poPanelOpen = false;
+
+async function loadPastOrders() {
+  if (!orderId) {
+    document.getElementById('past-orders').style.display = 'none';
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/order-status?orderId=${orderId}`);
+    if (!res.ok) return;
+    const data = await res.json();
+
+    if (data.lineItems && data.lineItems.length > 0) {
+      pastOrdersData = data.lineItems;
+      renderPastOrders(data.total);
+      document.getElementById('past-orders').style.display = 'block';
+    } else {
+      document.getElementById('past-orders').style.display = 'none';
+    }
+  } catch (e) {
+    console.warn('Past orders load failed:', e);
+  }
+}
+
+function renderPastOrders(total) {
+  const itemsEl = document.getElementById('po-items');
+  const badge = document.getElementById('po-badge');
+  const totalEl = document.getElementById('po-total');
+
+  badge.textContent = pastOrdersData.length;
+  totalEl.textContent = formatPrice(total || 0);
+
+  itemsEl.innerHTML = pastOrdersData.map(li =>
+    `<div class="po-item">
+      <span class="po-item-name">${esc(li.name)}</span>
+      <span class="po-item-price">${formatPrice(li.price)}</span>
+    </div>`
+  ).join('');
+}
+
+function togglePastOrders() {
+  poPanelOpen = !poPanelOpen;
+  document.getElementById('po-panel').style.display = poPanelOpen ? 'block' : 'none';
+  if (poPanelOpen) loadPastOrders();
 }
 
 // ── Utilities ──

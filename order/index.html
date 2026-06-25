@@ -245,6 +245,24 @@
   </div>
 </div>
 
+<!-- ── FLOATING PAST ORDERS PANEL ── -->
+<div id="past-orders" class="past-orders" style="display:none">
+  <button class="po-toggle" onclick="togglePastOrders()">
+    <i class="bi bi-receipt-cutoff"></i>
+    <span id="po-badge" class="po-badge">0</span>
+  </button>
+  <div id="po-panel" class="po-panel" style="display:none">
+    <div class="po-header">
+      <span class="po-title">Ordered Items</span>
+      <span id="po-total" class="po-total">$0.00</span>
+    </div>
+    <div id="po-items" class="po-items"></div>
+    <button class="po-pay-btn" onclick="loadBillAndShowPayment()">
+      <i class="bi bi-credit-card"></i> View Bill & Pay
+    </button>
+  </div>
+</div>
+
 <!-- ── FULL-SCREEN LOADER ── -->
 <div id="overlay-loading" class="overlay-loading" style="display:none">
   <div class="spinner"></div>

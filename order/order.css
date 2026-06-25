@@ -548,6 +548,69 @@ body {
   .welcome-title { font-size: 1.1rem; }
 }
 
+/* ── PAST ORDERS FLOATING PANEL ── */
+.past-orders {
+  position: fixed; bottom: 20px; right: 16px; z-index: 90;
+}
+.po-toggle {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), #a67820);
+  border: none; color: var(--bg); font-size: 1.3rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 4px 16px rgba(200,146,42,.4);
+  position: relative; float: right;
+}
+.po-toggle:active { transform: scale(.93); }
+.po-badge {
+  position: absolute; top: -4px; right: -4px;
+  background: var(--crimson); color: #fff; font-size: .6rem; font-weight: 700;
+  min-width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-body);
+}
+.po-panel {
+  position: absolute; bottom: 60px; right: 0;
+  width: 280px; max-height: 360px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,.6);
+  animation: poSlideUp .2s ease-out;
+}
+@keyframes poSlideUp { from { opacity: 0; transform: translateY(10px); } }
+.po-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 14px; border-bottom: 1px solid var(--border);
+}
+.po-title {
+  font-family: var(--font-display); font-size: .75rem;
+  color: var(--gold-light); letter-spacing: 1px; text-transform: uppercase;
+}
+.po-total {
+  font-family: var(--font-display); font-size: .9rem;
+  color: var(--gold-light); font-weight: 700;
+}
+.po-items {
+  max-height: 220px; overflow-y: auto; padding: 8px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.po-items::-webkit-scrollbar { width: 3px; }
+.po-items::-webkit-scrollbar-thumb { background: rgba(200,146,42,.2); }
+.po-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 14px; font-size: .8rem;
+}
+.po-item-name { color: var(--cream); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.po-item-price { color: var(--gold); font-size: .75rem; margin-left: 8px; white-space: nowrap; }
+.po-pay-btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; padding: 11px; border: none;
+  background: var(--gold-dim); color: var(--gold-light);
+  font-family: var(--font-display); font-size: .7rem;
+  font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  cursor: pointer; border-top: 1px solid var(--border);
+}
+.po-pay-btn:active { background: rgba(200,146,42,.25); }
+
 /* ── DESKTOP CENTERING ── */
 @media (min-width: 600px) {
   body { max-width: 480px; margin: 0 auto; box-shadow: 0 0 60px rgba(0,0,0,.5); }
