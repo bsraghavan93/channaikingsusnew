@@ -21,7 +21,7 @@ let cardElement = null;
     return;
   }
 
-  document.getElementById('hdr-table').textContent = tableNumber;
+  document.getElementById('hdr-table').textContent = 'Table - ' + tableNumber;
   loadCartFromStorage();
   updateCartBadge();
 
