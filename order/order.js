@@ -357,7 +357,7 @@ function addToCart() {
   saveCartToStorage();
   updateCartBadge();
   closeItemModal();
-  toast(`${selectedItem.name} added to cart`);
+  cartToast(selectedItem.name, modalQty);
 }
 
 function removeCartItem(index) {
@@ -591,7 +591,9 @@ async function initCloverPayment() {
     const elements = cloverInstance.elements();
 
     const fieldStyle = {
-      body: { margin: '0', padding: '0', backgroundColor: '#1a1410' },
+      html: { margin: '0', padding: '0', backgroundColor: '#1a1410', height: '100%' },
+      body: { margin: '0', padding: '0', backgroundColor: '#1a1410', height: '100%' },
+      'body::before': { display: 'none' },
       input: {
         fontSize: '16px',
         fontFamily: 'Lato, sans-serif',
@@ -705,6 +707,26 @@ function toast(msg) {
   el.textContent = msg;
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 2600);
+}
+
+function cartToast(itemName, qty) {
+  const existing = document.querySelector('.cart-toast');
+  if (existing) existing.remove();
+  const total = cart.reduce((s, i) => s + i.qty, 0);
+  const el = document.createElement('div');
+  el.className = 'cart-toast';
+  el.innerHTML = `
+    <div class="cart-toast-left">
+      <i class="bi bi-bag-check-fill"></i>
+      <div>
+        <div class="cart-toast-item">${esc(itemName)}${qty > 1 ? ' x' + qty : ''}</div>
+        <div class="cart-toast-sub">${total} item${total !== 1 ? 's' : ''} in cart</div>
+      </div>
+    </div>
+    <button class="cart-toast-btn" onclick="showView('cart')">View Cart</button>
+  `;
+  document.body.appendChild(el);
+  setTimeout(() => { if (el.parentNode) el.remove(); }, 3200);
 }
 
 function showOverlay(msg) {
