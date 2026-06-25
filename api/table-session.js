@@ -39,13 +39,27 @@ module.exports = async function handler(req, res) {
     }
 
     if (req.method === 'POST') {
+      // Find dine-in order type
+      let orderTypeId = null;
+      try {
+        const typesRes = await cloverFetch('/order_types?limit=50');
+        const types = typesRes.elements || [];
+        const dineIn = types.find(t =>
+          /dine.?in/i.test(t.label || t.name || '')
+        ) || types[0];
+        if (dineIn) orderTypeId = dineIn.id;
+      } catch (e) { /* proceed without order type */ }
+
+      const orderBody = {
+        state: 'open',
+        note: tag,
+        title: `Table ${table}`,
+      };
+      if (orderTypeId) orderBody.orderType = { id: orderTypeId };
+
       const newOrder = await cloverFetch('/orders', {
         method: 'POST',
-        body: JSON.stringify({
-          state: 'open',
-          note: tag,
-          title: `Table ${table}`,
-        }),
+        body: JSON.stringify(orderBody),
       });
 
       return res.status(201).json({

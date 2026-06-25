@@ -8,12 +8,23 @@ module.exports = async function handler(req, res) {
   try {
     const ordersRes = await cloverFetch('/orders?filter=state=open&limit=200&expand=lineItems');
     const orders = (ordersRes.elements || [])
-      .filter(o => o.note && o.note.startsWith('TABLE:'))
+      .filter(o => {
+        const items = o.lineItems?.elements || [];
+        return items.length > 0;
+      })
       .map(o => {
         const items = o.lineItems?.elements || [];
+        let table = '';
+        if (o.note && o.note.startsWith('TABLE:')) {
+          table = o.note.replace('TABLE:', '');
+        } else if (o.title) {
+          table = o.title;
+        } else {
+          table = 'POS #' + (o.id || '').slice(-4);
+        }
         return {
           orderId: o.id,
-          table: o.note.replace('TABLE:', ''),
+          table,
           title: o.title || '',
           total: items.reduce((s, li) => s + (li.price || 0), 0),
           createdTime: o.createdTime,
