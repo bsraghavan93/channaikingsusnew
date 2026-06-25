@@ -591,26 +591,12 @@ async function initCloverPayment() {
     const elements = cloverInstance.elements();
 
     const fieldStyle = {
-      '*': { boxSizing: 'border-box' },
-      html: { margin: '0', padding: '0', backgroundColor: '#1a1410', height: '44px', overflow: 'hidden' },
-      body: { margin: '0', padding: '0', backgroundColor: '#1a1410', height: '44px', overflow: 'hidden' },
       input: {
         fontSize: '16px',
         fontFamily: 'Lato, sans-serif',
-        color: '#f5e6c8',
-        backgroundColor: '#1a1410',
-        border: 'none',
-        outline: 'none',
-        padding: '10px 12px',
-        height: '44px',
-        lineHeight: '24px',
-        width: '100%',
-        boxSizing: 'border-box',
-        margin: '0',
-        display: 'block',
+        color: '#1a1410',
       },
-      'input:focus': { outline: 'none' },
-      'input::placeholder': { color: '#9a8b78' },
+      'input::placeholder': { color: '#999' },
     };
 
     const cardNumber = elements.create('CARD_NUMBER', { style: fieldStyle });
@@ -622,23 +608,6 @@ async function initCloverPayment() {
     cardDate.mount('#card-date');
     cardCvv.mount('#card-cvv');
     cardPostal.mount('#card-postal');
-
-    setTimeout(() => {
-      document.querySelectorAll('.card-field').forEach(field => {
-        Array.from(field.children).forEach(c => {
-          if (c.tagName === 'IFRAME') return;
-          c.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:44px;max-height:44px;overflow:hidden;background:#1a1410;z-index:1;pointer-events:none;';
-        });
-        field.addEventListener('click', () => {
-          const iframe = field.querySelector('iframe');
-          if (iframe) iframe.focus();
-        });
-        field.addEventListener('touchstart', () => {
-          const iframe = field.querySelector('iframe');
-          if (iframe) iframe.focus();
-        }, { passive: true });
-      });
-    }, 600);
 
     cardElement = cardNumber;
     cloverInitDone = true;
