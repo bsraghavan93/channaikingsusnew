@@ -602,7 +602,7 @@ async function initCloverPayment() {
         border: 'none',
         outline: 'none',
         padding: '12px',
-        height: '100%',
+        height: '48px',
         width: '100%',
         boxSizing: 'border-box',
         margin: '0',
@@ -620,6 +620,18 @@ async function initCloverPayment() {
     cardDate.mount('#card-date');
     cardCvv.mount('#card-cvv');
     cardPostal.mount('#card-postal');
+
+    setTimeout(() => {
+      document.querySelectorAll('.card-field').forEach(field => {
+        const children = field.querySelectorAll('div, span');
+        children.forEach(c => {
+          c.style.height = '48px';
+          c.style.maxHeight = '48px';
+          c.style.overflow = 'hidden';
+          c.style.background = '#1a1410';
+        });
+      });
+    }, 500);
 
     cardElement = cardNumber;
     cloverInitDone = true;
