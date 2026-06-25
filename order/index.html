@@ -38,8 +38,54 @@
   <a href="/main/" class="btn-gold mt2">Back to Website</a>
 </div>
 
+<!-- ── WELCOME / LANDING VIEW ── -->
+<div id="view-welcome" class="view view-center" style="display:none">
+  <div class="welcome-content">
+    <img src="/assets/logo_full.png" alt="Chennai Kings" class="welcome-logo">
+    <h2 class="welcome-title">Welcome to Your Table</h2>
+    <p class="welcome-sub">Order directly from your phone — easy, fast, and at your own pace.</p>
+
+    <div class="flow-steps">
+      <div class="flow-step" style="--step-i:0">
+        <div class="flow-icon"><i class="bi bi-book"></i></div>
+        <div class="flow-label">View Menu</div>
+      </div>
+      <div class="flow-connector"><span></span></div>
+      <div class="flow-step" style="--step-i:1">
+        <div class="flow-icon"><i class="bi bi-bag-plus"></i></div>
+        <div class="flow-label">Select &amp; Order</div>
+      </div>
+      <div class="flow-connector"><span></span></div>
+      <div class="flow-step" style="--step-i:2">
+        <div class="flow-icon"><i class="bi bi-arrow-repeat"></i></div>
+        <div class="flow-label">Add More Anytime</div>
+      </div>
+      <div class="flow-connector"><span></span></div>
+      <div class="flow-step" style="--step-i:3">
+        <div class="flow-icon"><i class="bi bi-emoji-smile"></i></div>
+        <div class="flow-label">Enjoy Your Meal</div>
+      </div>
+      <div class="flow-connector"><span></span></div>
+      <div class="flow-step" style="--step-i:4">
+        <div class="flow-icon"><i class="bi bi-credit-card"></i></div>
+        <div class="flow-label">Pay Phone or Counter</div>
+      </div>
+    </div>
+
+    <button class="btn-start-order" onclick="showView('menu')">
+      <i class="bi bi-grid-3x3-gap-fill"></i>
+      <span>Show Menu &mdash; Start Ordering</span>
+    </button>
+  </div>
+</div>
+
 <!-- ── MENU VIEW ── -->
 <div id="view-menu" class="view" style="display:none">
+  <!-- Search -->
+  <div class="menu-search-wrap">
+    <i class="bi bi-search"></i>
+    <input id="menu-search" type="text" placeholder="Search dishes..." oninput="filterMenu(this.value)">
+  </div>
   <!-- Category tabs -->
   <nav id="cat-tabs" class="cat-tabs"></nav>
   <!-- Items list -->

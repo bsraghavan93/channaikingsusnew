@@ -29,7 +29,7 @@ let cardElement = null;
     await loadMenu();
     await initTableSession();
     renderMenu();
-    showView('menu');
+    showView('welcome');
   } catch (err) {
     console.error('Init error:', err);
     document.getElementById('view-loading').querySelector('.load-text').textContent =
@@ -50,12 +50,24 @@ function showView(name) {
   const el = document.getElementById('view-' + name);
   if (el) {
     el.style.display = name === 'loading' || name === 'invalid' ||
-      name === 'ordered' || name === 'success' || name === 'counter-pay'
+      name === 'ordered' || name === 'success' || name === 'counter-pay' ||
+      name === 'welcome'
       ? 'flex' : 'block';
     if (name === 'card-pay') initCloverPayment();
   }
   if (name === 'cart') renderCart();
+  if (name === 'menu') reanimateItems();
   window.scrollTo(0, 0);
+}
+
+function reanimateItems() {
+  const cards = document.querySelectorAll('.item-card');
+  cards.forEach((c, i) => {
+    c.style.animation = 'none';
+    c.offsetHeight; // trigger reflow
+    c.style.setProperty('--item-i', Math.min(i, 15));
+    c.style.animation = '';
+  });
 }
 
 // ── Menu Loading ──
@@ -106,6 +118,8 @@ function renderMenu() {
   tabsEl.innerHTML = '';
   itemsEl.innerHTML = '';
 
+  let itemIndex = 0;
+
   menuData.forEach((cat, i) => {
     const tab = document.createElement('button');
     tab.className = 'cat-tab' + (i === 0 ? ' active' : '');
@@ -114,12 +128,16 @@ function renderMenu() {
     tabsEl.appendChild(tab);
 
     const section = document.createElement('div');
+    section.className = 'cat-section';
     section.id = 'cat-' + cat.id;
     section.innerHTML = `<div class="cat-section-title">${esc(cat.name)}</div>`;
 
     cat.items.forEach(item => {
       const card = document.createElement('div');
       card.className = 'item-card';
+      card.style.setProperty('--item-i', Math.min(itemIndex++, 12));
+      card.dataset.name = (item.name || '').toLowerCase();
+      card.dataset.desc = (item.description || '').toLowerCase();
       card.onclick = () => openItemModal(item);
       const hasMods = item.modifierGroups && item.modifierGroups.length > 0;
       card.innerHTML = `
@@ -128,13 +146,45 @@ function renderMenu() {
           ${item.description ? `<div class="item-desc">${esc(item.description)}</div>` : ''}
           ${hasMods ? '<div class="item-mod-hint">Customizable</div>' : ''}
         </div>
-        <div class="item-price">${formatPrice(item.price)}</div>
+        <div class="item-price-wrap">
+          <div class="item-price">${formatPrice(item.price)}</div>
+          <div class="item-add-hint"><i class="bi bi-plus"></i></div>
+        </div>
       `;
       section.appendChild(card);
     });
 
     itemsEl.appendChild(section);
   });
+}
+
+// ── Search / Filter ──
+function filterMenu(query) {
+  const q = (query || '').toLowerCase().trim();
+  const sections = document.querySelectorAll('.cat-section');
+  sections.forEach(section => {
+    const cards = section.querySelectorAll('.item-card');
+    let anyVisible = false;
+    cards.forEach(card => {
+      const match = !q || card.dataset.name.includes(q) || card.dataset.desc.includes(q);
+      card.style.display = match ? '' : 'none';
+      if (match) anyVisible = true;
+    });
+    section.style.display = anyVisible ? '' : 'none';
+  });
+  const noRes = document.getElementById('menu-no-results');
+  const anyShown = Array.from(sections).some(s => s.style.display !== 'none');
+  if (q && !anyShown) {
+    if (!noRes) {
+      const el = document.createElement('div');
+      el.id = 'menu-no-results';
+      el.className = 'menu-no-results';
+      el.innerHTML = '<i class="bi bi-search"></i>No dishes found';
+      document.getElementById('menu-items').appendChild(el);
+    }
+  } else if (noRes) {
+    noRes.remove();
+  }
 }
 
 function scrollToCategory(catId, tabEl) {
