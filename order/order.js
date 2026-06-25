@@ -629,6 +629,14 @@ async function initCloverPayment() {
           if (c.tagName === 'IFRAME') return;
           c.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:44px;max-height:44px;overflow:hidden;background:#1a1410;z-index:1;pointer-events:none;';
         });
+        field.addEventListener('click', () => {
+          const iframe = field.querySelector('iframe');
+          if (iframe) iframe.focus();
+        });
+        field.addEventListener('touchstart', () => {
+          const iframe = field.querySelector('iframe');
+          if (iframe) iframe.focus();
+        }, { passive: true });
       });
     }, 600);
 
