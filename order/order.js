@@ -591,13 +591,10 @@ async function initCloverPayment() {
     const elements = cloverInstance.elements();
 
     const fieldStyle = {
-      'card-number': { height: '100%' },
-      'masked-input': { height: '100%', display: 'block' },
       input: {
         fontSize: '16px',
         fontFamily: 'Lato, sans-serif',
         color: '#1a1410',
-        height: '100%',
         padding: '0 12px',
       },
       'input::placeholder': { color: '#999' },

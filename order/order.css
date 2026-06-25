@@ -446,8 +446,9 @@ body {
 }
 .card-field {
   border: 1px solid rgba(200,146,42,.35); border-radius: 8px;
-  background: #fff; padding: 0;
-  height: 45px; overflow: hidden;
+  background: #fff;
+  height: 36px; padding-top: 6px;
+  overflow: hidden;
   transition: border-color .2s;
 }
 .card-field:focus-within { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(200,146,42,.15); }
