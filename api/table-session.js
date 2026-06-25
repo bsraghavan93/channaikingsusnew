@@ -16,7 +16,7 @@ module.exports = async function handler(req, res) {
   const tag = noteTag(table);
 
   try {
-    const ordersRes = await cloverFetch('/orders?filter=state=open&limit=200&expand=lineItems');
+    const ordersRes = await cloverFetch('/orders?filter=state%3Dopen&limit=200&expand=lineItems');
     const orders = ordersRes.elements || [];
     const tableOrder = orders.find(o => o.note && o.note === tag);
 

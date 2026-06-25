@@ -7,7 +7,7 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const ordersRes = await cloverFetch('/orders?filter=state=open&limit=200&expand=lineItems');
+    const ordersRes = await cloverFetch('/orders?filter=state%3Dopen&limit=200&expand=lineItems');
     const orders = ordersRes.elements || [];
 
     const activeMap = {};
