@@ -446,12 +446,17 @@ body {
 }
 .card-field {
   border: 1px solid var(--border); border-radius: 8px;
-  background: var(--bg-card); padding: 0; height: 48px;
+  background: var(--bg-card); padding: 0;
   overflow: hidden; transition: border-color .2s;
 }
 .card-field:focus-within { border-color: var(--gold); }
+.card-field div, .card-field > * {
+  background: var(--bg-card) !important;
+}
 .card-field iframe {
-  height: 48px !important; min-height: 0 !important;
+  width: 100% !important; height: 100% !important;
+  min-height: 48px !important;
+  display: block;
   background: var(--bg-card) !important;
   color-scheme: dark;
 }

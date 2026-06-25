@@ -602,7 +602,7 @@ async function initCloverPayment() {
         border: 'none',
         outline: 'none',
         padding: '12px',
-        height: '48px',
+        height: '100%',
         width: '100%',
         boxSizing: 'border-box',
         margin: '0',
